@@ -1,6 +1,5 @@
 <?php
-session_start();
-require 'db.php';
+require 'init.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
