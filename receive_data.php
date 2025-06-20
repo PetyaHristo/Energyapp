@@ -1,17 +1,29 @@
 <?php
-require 'db.php'; // свързване с базата
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "energy_app";
 
-// Очакваме данни с GET (или POST)
-if (isset($_GET['user_id']) && isset($_GET['energy']) && isset($_GET['month']) && isset($_GET['day'])) {
-    $user_id = (int)$_GET['user_id'];
-    $energy = (float)$_GET['energy'];
-    $month = (int)$_GET['month'];
-    $day = (int)$_GET['day'];
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-    $stmt = $pdo->prepare("REPLACE INTO energy_data (user_id, month, day, energy) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$user_id, $month, $day, $energy]);
+if (isset($_GET['user_id'], $_GET['year'], $_GET['month'], $_GET['day'], $_GET['energy'])) {
+    $user_id = $_GET['user_id'];
+    $year = $_GET['year'];
+    $month = $_GET['month'];
+    $day = $_GET['day'];
+    $energy = $_GET['energy'];
 
-    echo "OK";
+    $stmt = $conn->prepare("INSERT INTO energy_data (user_id, year, month, day, energy) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiid", $user_id, $year, $month, $day, $energy);
+    $stmt->execute();
+
+    echo "Data saved successfully";
 } else {
     echo "Missing parameters";
 }
+
+$conn->close();
+?>
