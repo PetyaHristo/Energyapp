@@ -1,10 +1,12 @@
+
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <time.h>
 
 const char* ssid = "UKTC";
 const char* password = "uktc1234";
-const char* serverName = "http://localhost/vscode/energy_app/receive_data.php";
+const char* serverName = "http://192.168.120.121/vscode/energy_app/receive_data.php";
+
 
 int year, month;
 int day = 1; // започваме от 1
@@ -58,7 +60,7 @@ void loop() {
 
     float energy = random(100, 500) / 10.0;
 
-    String url = String(serverName) + "?user_id=6&year=" + year + "&month=" + month + "&day=" + day + "&energy=" + energy;
+    String url = String(serverName) + "?user_id=5&year=" + year + "&month=" + month + "&day=" + day + "&energy=" + energy;
 
     Serial.println("Изпращане към: " + url);
 
@@ -81,5 +83,5 @@ void loop() {
     Serial.println("WiFi не е свързан");
   }
 
-  delay(10000);
+  delay(10);
 }
